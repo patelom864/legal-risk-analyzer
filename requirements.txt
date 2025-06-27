@@ -1,0 +1,7 @@
+ibm-watsonx-ai>=0.7.0
+pypdf
+python-docx
+faiss-cpu
+streamlit
+python-dotenv
+tqdm
