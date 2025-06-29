@@ -94,6 +94,13 @@ def score_risk(
             for r in data:
                 r["impact_usd"] = round(r["score"] * factor * contract_value, 2)
                 r["id"] = uuid.uuid4().hex
+
+                # skip any clause dicts that didn’t get a "score" back
+                score = r.get("score")
+                if score is None:
+                    continue
+                r["impact_usd"] = round(score * factor * contract_value, 2)
+                r["id"] = uuid.uuid4().hex
             risks.extend(data)
 
 
