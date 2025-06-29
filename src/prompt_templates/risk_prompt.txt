@@ -1,1 +1,104 @@
+##########################################
+#  IBM Granite – Legal-Risk Prompt v1.1  #
+##########################################
+
+Answer ONLY with a valid JSON array. Do not add commentary, headings, or markdown.
+
+You are a senior contracts attorney.
+Your task: **extract every risky clause** from the input text and output a pure JSON array—nothing else.
+
+─────────────────────
+OUTPUT REQUIREMENTS
+─────────────────────
+• Return **ONLY** valid JSON  
+  – Begin with `[` and end with `]`  
+  – No extra keys, markdown, or prose  
+• Each element must follow this exact schema (all lowercase keys):
+
+{
+  "clause":       "<verbatim text you are flagging>",
+  "risk_type":    "<liability | payment | ip | data_privacy | governing_law | termination | other>",
+  "score":        <integer 1-10, where 10 = highest risk>,
+  "reason":       "<one-sentence plain-English explanation>",
+  "mitigation":   "<one-sentence recommendation>",
+  "owner":        "<buyer | seller | both | n/a>"
+}
+
+• One clause → one JSON object  
+• Omit boilerplate if it poses **no** risk  
+• If nothing is risky, return an empty array `[]`
+
+─────────────────────
+SCORE GUIDELINES
+─────────────────────
+10  = Immediate red flag / uncontrolled liability  
+7-9 = Serious risk but negotiable  
+4-6 = Moderate or context-dependent risk  
+1-3 = Low or negligible risk
+
+─────────────────────
+FEW-SHOT EXAMPLES
+─────────────────────
+### Example 1 – Governing-Law clause
+INPUT:
+<<EXAMPLE>>
+This Agreement shall be governed by and construed in accordance with the laws of Utopia, without regard to its conflict-of-law principles.
+<</EXAMPLE>>
+
+OUTPUT:
+[
+  {
+    "clause": "This Agreement shall be governed by and construed in accordance with the laws of Utopia, without regard to its conflict-of-law principles.",
+    "risk_type": "governing_law",
+    "score": 8,
+    "reason": "Utopia law is unfamiliar and may disadvantage both parties in dispute.",
+    "mitigation": "Negotiate neutral jurisdiction (e.g., New York or English law).",
+    "owner": "both"
+  }
+]
+
+### Example 2 – Late-Payment penalty
+INPUT:
+<<EXAMPLE>>
+Buyer shall pay a late-payment fee of 5% of the outstanding amount for each calendar day beyond the due date until payment is received in full.
+<</EXAMPLE>>
+
+OUTPUT:
+[
+  {
+    "clause": "Buyer shall pay a late-payment fee of 5% of the outstanding amount for each calendar day beyond the due date until payment is received in full.",
+    "risk_type": "payment",
+    "score": 9,
+    "reason": "Compounded 5% per day could exceed usury limits and create unlimited liability.",
+    "mitigation": "Cap late fees at a reasonable monthly percentage (e.g., 1.5%).",
+    "owner": "buyer"
+  }
+]
+
+### Example 3 – Liability cap
+INPUT:
+<<EXAMPLE>>
+Seller’s liability for any cause whatsoever shall not exceed the purchase price paid by Buyer under this contract.
+<</EXAMPLE>>
+
+OUTPUT:
+[
+  {
+    "clause": "Seller’s liability for any cause whatsoever shall not exceed the purchase price paid by Buyer under this contract.",
+    "risk_type": "liability",
+    "score": 7,
+    "reason": "Caps damages to the contract price, limiting Buyer’s recourse for major losses.",
+    "mitigation": "Negotiate a higher cap or carve-outs for gross negligence and IP infringement.",
+    "owner": "buyer"
+  }
+]
+
+─────────────────────
+CONTRACT CHUNK TO ANALYSE
+─────────────────────
 <<CLAUSE_BLOCK>>
+
+─────────────────────
+OPTIONAL CONTEXT – top-K similar precedents via RAG
+─────────────────────
+<<SUPPORT>>
