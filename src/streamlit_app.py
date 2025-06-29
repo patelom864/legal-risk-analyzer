@@ -6,11 +6,15 @@ Granite Legal Risk Analyzer – Streamlit frontend
 • Display risk clauses in expandable cards sorted by severity
 """
 
-import streamlit as st
 import pandas as pd
 
 from extract_text import extract_text
 from risk_engine  import score_risk
+import os, streamlit as st
+
+st.write("KEY:", bool(os.getenv("WX_API_KEY")))
+st.write("PROJECT:", os.getenv("WX_PROJECT_ID"))
+
 
 # ── page config & tidy up ────────────────────────────────────────
 st.set_page_config(
