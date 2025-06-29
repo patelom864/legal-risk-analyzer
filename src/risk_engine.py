@@ -92,6 +92,9 @@ def score_risk(
 
 
             for r in data:
+                print(f"Chunk responses: {sum('score' in r for r in data)}/{len(data)} scored")
+
+
                 # skip any chunk that didn't return a score
                 if "score" not in r:
                     continue
