@@ -2,7 +2,6 @@
 from pathlib import Path
 from pypdf import PdfReader
 from docx import Document
-from ftfy import fix_text
 
 # ── add near the top of the file ────────────────────────────────
 import re
