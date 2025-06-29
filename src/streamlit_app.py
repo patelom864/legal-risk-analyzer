@@ -9,8 +9,8 @@ Granite Legal Risk Analyzer – Streamlit frontend
 import streamlit as st
 import pandas as pd
 
-from src.extract_text import extract_text
-from src.risk_engine  import score_risk
+from extract_text import extract_text
+from risk_engine  import score_risk
 
 # ── page config & tidy up ────────────────────────────────────────
 st.set_page_config(
