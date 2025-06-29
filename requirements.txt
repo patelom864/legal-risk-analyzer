@@ -5,3 +5,4 @@ faiss-cpu
 streamlit
 python-dotenv
 tqdm
+ftfy>=6.1.1
