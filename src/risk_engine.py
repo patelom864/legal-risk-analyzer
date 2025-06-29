@@ -52,7 +52,7 @@ def score_risk(
     """
     risks: list[dict] = []
 
-    for i, chunk in enumerate(chunk_document(text)):
+    for i, chunk in enumerate(chunk_document(text, max_tokens=2000, overlap=200)):
         prompt = PROMPT_TMPL.replace("<<CLAUSE_BLOCK>>", chunk)
 
         resp = granite.generate_text(
