@@ -10,6 +10,7 @@ import pandas as pd
 
 from extract_text import extract_text
 from risk_engine  import score_risk
+import os, streamlit as st
 
 
 # ── page config & tidy up ────────────────────────────────────────
