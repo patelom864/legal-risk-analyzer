@@ -12,7 +12,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 from ibm_watsonx_ai import Credentials
 from ibm_watsonx_ai.foundation_models import Model          # SDK 1.3.x
-from .chunker import chunk_document                         # ← your splitter
+from chunker import chunk_document                         # ← your splitter
 
 # ── locate repo root & prompt template ──────────────────────────
 REPO_ROOT   = Path(__file__).resolve().parent.parent
